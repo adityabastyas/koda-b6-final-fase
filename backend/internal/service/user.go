@@ -1,9 +1,12 @@
 package service
 
 import (
+	"backend/internal/lib"
 	"backend/internal/models"
 	"backend/internal/repository"
 	"errors"
+
+	"github.com/jackc/pgx/v5"
 )
 
 type UserService struct {
@@ -26,6 +29,12 @@ func (s *UserService) Register(input models.UserRegisterInput) error {
 		return errors.New("email sudah terdaftar")
 	}
 
+	hashedPassword, err := lib.HashPassword(input.Password)
+	if err != nil {
+		return errors.New("gagal hash password")
+	}
+	input.Password = hashedPassword
+
 	return s.repo.Create(input)
 }
 
@@ -36,11 +45,19 @@ func (s *UserService) Login(input models.UserLoginInput) (*models.User, error) {
 
 	user, err := s.repo.FindByEmail(input.Email)
 	if err != nil {
-		return nil, errors.New("email tidak ditemukan")
+		if errors.Is(err, pgx.ErrNoRows) {
+			return nil, errors.New("email atau password salah")
+		}
+		return nil, errors.New("terjadi kesalahan pada server")
 	}
 
-	if user.Password != input.Password {
-		return nil, errors.New("password salah")
+	valid, err := lib.VerifyPassword(input.Password, user.Password)
+	if err != nil {
+		return nil, errors.New("terjadi kesalahan pada server")
+	}
+
+	if !valid {
+		return nil, errors.New("email atau password salah")
 	}
 
 	return user, nil
