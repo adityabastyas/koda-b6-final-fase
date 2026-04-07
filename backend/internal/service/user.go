@@ -28,3 +28,7 @@ func (s *UserService) Register(input models.UserRegisterInput) error {
 
 	return s.repo.Create(input)
 }
+
+func (s *UserService) GetAll() ([]models.User, error) {
+	return s.repo.GetAll()
+}
