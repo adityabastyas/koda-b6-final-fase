@@ -11,3 +11,5 @@ func NewLinkRepository(db *pgxpool.Pool) *LinkRepository {
 		DB: db,
 	}
 }
+
+// func(r *LinkRepository) Create()

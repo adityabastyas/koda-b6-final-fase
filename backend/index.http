@@ -3,7 +3,7 @@ Host: localhost:8888
 Content-Type: application/json
 
 {
-    "email": "hai@mail.com",
+    "email": "hi@mail.com",
     "password": "123456"
 }
 
@@ -13,6 +13,6 @@ Host: localhost:8888
 Content-Type: application/json
 
 {
-    "email": "hai@mail.com",
+    "email": "hi@mail.com",
     "password": "123456"
 }

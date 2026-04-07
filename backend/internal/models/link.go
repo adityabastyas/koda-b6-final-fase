@@ -10,3 +10,8 @@ type Link struct {
 	CreatedAt   time.Time  `json:"created_at" db:"created_at"`
 	DeletedAt   *time.Time `json:"deleted_at,omitempty" db:"deleted_at"`
 }
+
+type LinkInput struct {
+	OriginalURL string `json:"original_url" binding:"required,url"`
+	Slug        string `json:"slug"`
+}

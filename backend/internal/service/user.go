@@ -51,7 +51,7 @@ func (s *UserService) Login(input models.UserLoginInput) (*models.User, error) {
 		return nil, errors.New("terjadi kesalahan pada server")
 	}
 
-	valid, err := lib.VerifyPassword(input.Password, user.Password)
+	valid, err := lib.VerifyPassword(input.Password, user.PasswordHash)
 	if err != nil {
 		return nil, errors.New("terjadi kesalahan pada server")
 	}

@@ -19,7 +19,7 @@ func NewUserRepository(db *pgxpool.Pool) *UserRepository {
 }
 
 func (r *UserRepository) GetAll() ([]models.User, error) {
-	query := `SELECT id, email, password, created_at FROM users`
+	query := `SELECT id, email, password_hash, created_at FROM users`
 
 	rows, err := r.DB.Query(context.Background(), query)
 	if err != nil {
@@ -36,7 +36,7 @@ func (r *UserRepository) GetAll() ([]models.User, error) {
 }
 
 func (r *UserRepository) FindByEmail(email string) (*models.User, error) {
-	query := `SELECT id, email, password, created_at FROM users WHERE email = $1`
+	query := `SELECT id, email, password_hash, created_at FROM users WHERE email = $1`
 
 	rows, err := r.DB.Query(context.Background(), query, email)
 	if err != nil {
@@ -54,7 +54,7 @@ func (r *UserRepository) FindByEmail(email string) (*models.User, error) {
 }
 
 func (r *UserRepository) Create(input models.UserRegisterInput) error {
-	query := `INSERT INTO users (email, password) VALUES ($1,$2)`
+	query := `INSERT INTO users (email, password_hash) VALUES ($1,$2)`
 
 	_, err := r.DB.Exec(context.Background(), query, input.Email, input.Password)
 	return err
