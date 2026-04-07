@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"backend/internal/lib"
 	"backend/internal/models"
 	"backend/internal/service"
 	"net/http"
@@ -66,8 +67,10 @@ func (a *AuthHandler) Login(ctx *gin.Context) {
 		return
 	}
 
+	token, _ := lib.GenerateToken(results.Email)
+
 	ctx.JSON(http.StatusOK, models.Response{Success: true, Message: "login success", Result: gin.H{
 		"user":  results,
-		"token": "token",
+		"token": token,
 	}})
 }
