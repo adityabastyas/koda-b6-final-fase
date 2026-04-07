@@ -52,3 +52,10 @@ func (r *UserRepository) FindByEmail(email string) (*models.User, error) {
 	return &user, nil
 
 }
+
+func (r *UserRepository) Create(input models.UserRegisterInput) error {
+	query := `INSERT INTO users (email, password) VALUES ($1,$2)`
+
+	_, err := r.DB.Exec(context.Background(), query, input.Email, input.Password)
+	return err
+}
