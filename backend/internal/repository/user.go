@@ -34,3 +34,21 @@ func (r *UserRepository) GetAll() ([]models.User, error) {
 
 	return users, nil
 }
+
+func (r *UserRepository) FindByEmail(email string) (*models.User, error) {
+	query := `SELECT id, email, password, created_at FROM users WHERE email = $1`
+
+	rows, err := r.DB.Query(context.Background(), query, email)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	user, err := pgx.CollectOneRow(rows, pgx.RowToStructByName[models.User])
+	if err != nil {
+		return nil, err
+	}
+
+	return &user, nil
+
+}
