@@ -1,9 +1,9 @@
 import React from 'react'
-import Input from './components/Input'
+import Login from './pages/Login'
 
 function App() {
   return (
-    <div><Input/></div>
+    <div><Login/></div>
   )
 }
 
