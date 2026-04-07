@@ -12,7 +12,7 @@ func SetupRoutes(r *gin.Engine, authHander *handlers.AuthHandler, userHandler *h
 	r.Use(lib.CorsMiddleware())
 
 	//auth
-	authGroup := r.Group("/auth")
+	authGroup := r.Group("/api")
 	authGroup.POST("/register", authHander.Register)
 	authGroup.POST("/login", authHander.Login)
 
