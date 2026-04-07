@@ -30,7 +30,7 @@ func (h *UserHandler) GetAll(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, models.Response{
 		Success: true,
-		Message: "success",
+		Message: "successful",
 		Result:  users,
 	})
 }
