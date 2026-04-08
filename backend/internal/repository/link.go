@@ -3,6 +3,7 @@ package repository
 import (
 	"backend/internal/models"
 	"context"
+	"time"
 
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -61,4 +62,11 @@ func (r *LinkRepository) GetByUser(userId int) ([]models.Link, error) {
 
 	return links, nil
 
+}
+
+func (r *LinkRepository) Delete(id int, userId int) error {
+	query := `UPDATE links SET deleted_at=$1 WHERE id=$2 AND user_id=$3`
+
+	_, err := r.DB.Exec(context.Background(), query, time.Now(), id, userId)
+	return err
 }
