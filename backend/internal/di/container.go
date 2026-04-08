@@ -20,6 +20,11 @@ func Container(c *gin.Engine, db *pgxpool.Pool) {
 	//auth
 	authHandler := handlers.NewAuthHandler(userService)
 
-	routes.SetupRoutes(c, authHandler, userHandler)
+	//link
+	linkRepo := repository.NewLinkRepository(db)
+	linkService := service.NewLinkService(linkRepo)
+	linkHandler := handlers.NewLinkHandler(linkService)
+
+	routes.SetupRoutes(c, authHandler, userHandler, linkHandler)
 
 }
