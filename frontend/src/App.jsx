@@ -5,10 +5,11 @@ import Navbar from './components/Navbar'
 import Home from './pages/Home'
 import Dashboard from './pages/Dashboard'
 import CreateLink from './pages/CreateLink'
+import NotFound from './pages/NotFound'
 
 function App() {
   return (
-    <div><CreateLink/></div>
+    <div><NotFound/></div>
   )
 }
 
