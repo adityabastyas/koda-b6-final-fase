@@ -44,3 +44,21 @@ func (r *LinkRepository) Create(input models.LinkInput) error {
 	return err
 
 }
+
+func (r *LinkRepository) GetByUser(userId int) ([]models.Link, error) {
+	query := `SELECT id, user_id, original_url, slug, created_at FROM links WHERE user_id=$1 AND deleted_at IS NULL ORDER BY id DESC`
+
+	rows, err := r.DB.Query(context.Background(), query, userId)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	links, err := pgx.CollectRows(rows, pgx.RowToStructByName[models.Link])
+	if err != nil {
+		return nil, err
+	}
+
+	return links, nil
+
+}
