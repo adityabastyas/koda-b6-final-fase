@@ -6,10 +6,11 @@ import Home from './pages/Home'
 import Dashboard from './pages/Dashboard'
 import CreateLink from './pages/CreateLink'
 import NotFound from './pages/NotFound'
+import Profile from './pages/Profile'
 
 function App() {
   return (
-    <div><NotFound/></div>
+    <div><Profile/></div>
   )
 }
 
