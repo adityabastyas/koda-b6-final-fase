@@ -95,6 +95,47 @@ function Home() {
       </div>
     </section>
 
+    <section className="bg-white py-20 px-6">
+      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-12">
+        
+        <div className="w-full md:w-1/2">
+          <div className="bg-gray-200 rounded-2xl overflow-hidden shadow-2xl aspect-video md:aspect-square flex items-center justify-center">
+            <img src="g" alt="g" />
+          </div>
+        </div>
+
+        <div className="w-full md:w-1/2">
+          <p className="text-blue-600 font-bold text-xs mb-3">
+            DATA DRIVEN INSIGHTS
+          </p>
+          <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-6 ">
+            Observe your link architecture in real-time.
+          </h2>
+          <p className="text-gray-500 mb-8 ">
+            Every click is a data point. Our dashboard provides surgical precision into 
+            where your traffic originates, who is engaging, and how your team 
+            communications are performing across the globe.
+          </p>
+
+          <ul className="space-y-4">
+            <li className="flex items-center gap-3 text-gray-800 font-semibold">
+              
+              Geographic Distribution Maps
+            </li>
+            <li className="flex items-center gap-3 text-gray-800 font-semibold">
+             
+              Device & Browser Breakdown
+            </li>
+            <li className="flex items-center gap-3 text-gray-800 font-semibold">
+             
+              UTM Parameter Tracking
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
 
     </main>
 
