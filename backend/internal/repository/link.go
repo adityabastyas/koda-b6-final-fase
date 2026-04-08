@@ -3,6 +3,7 @@ package repository
 import (
 	"backend/internal/models"
 	"context"
+	"time"
 
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -40,7 +41,51 @@ func (r *LinkRepository) FindBySlug(slug string) (*models.Link, error) {
 func (r *LinkRepository) Create(input models.LinkInput) error {
 	query := `INSERT INTO links (user_id, original_url, slug) VALUES ($1, $2, $3) RETURNING id, user_id, original_url, slug, created_at, deleted_at`
 
-	_, err := r.DB.Exec(context.Background(), query, input.OriginalURL, input.Slug)
+	_, err := r.DB.Exec(context.Background(), query, input.UserId, input.OriginalURL, input.Slug)
 	return err
 
+}
+
+func (r *LinkRepository) GetByUser(userId int) ([]models.Link, error) {
+	query := `SELECT id, user_id, original_url, slug, created_at, deleted_at FROM links WHERE user_id=$1 AND deleted_at IS NULL ORDER BY id DESC`
+
+	rows, err := r.DB.Query(context.Background(), query, userId)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	links, err := pgx.CollectRows(rows, pgx.RowToStructByName[models.Link])
+	if err != nil {
+		return nil, err
+	}
+
+	return links, nil
+
+}
+
+func (r *LinkRepository) Delete(id int, userId int) error {
+	query := `UPDATE links SET deleted_at=$1 WHERE id=$2 AND user_id=$3`
+
+	_, err := r.DB.Exec(context.Background(), query, time.Now(), id, userId)
+	return err
+}
+
+func (r *LinkRepository) GetAll(userId int) ([]models.Link, error) {
+	query := `SELECT id, user_id, original_url, slug, created_at, deleted_at 
+			  FROM links 
+			  WHERE user_id = $1 AND deleted_at IS NULL`
+
+	rows, err := r.DB.Query(context.Background(), query, userId)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	links, err := pgx.CollectRows(rows, pgx.RowToStructByName[models.Link])
+	if err != nil {
+		return nil, err
+	}
+
+	return links, nil
 }

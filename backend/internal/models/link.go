@@ -12,6 +12,7 @@ type Link struct {
 }
 
 type LinkInput struct {
+	UserId      int    `json:"user_id"`
 	OriginalURL string `json:"original_url" binding:"required,url"`
 	Slug        string `json:"slug"`
 }
