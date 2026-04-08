@@ -1,5 +1,6 @@
 import React from 'react'
 import Input from '../components/Input'
+import Short from '../components/Short'
 
 function Dashboard() {
   return (
@@ -25,17 +26,23 @@ function Dashboard() {
           <div className="absolute inset-y-0 left-5 flex items-center pointer-events-none text-slate-400 group-focus-within:text-blue-500 transition-colors">
           </div>
 
+          <form>
           <Input
             type="text" 
             placeholder="Search by name or URL..." 
             className="w-full bg-white border border-slate-200 rounded-2xl py-5 pl-14 pr-14 text-slate-700 shadow-sm focus:outline-none focus:ring-4 focus:ring-blue-50 transition-all placeholder:text-slate-300"
-          />
+            />
+            </form>
 
           <div className="absolute inset-y-0 right-5 flex items-center text-slate-400 cursor-pointer hover:text-slate-600 transition-colors">
           </div>
         </div>
 
       </div>
+    </section>
+
+    <section>
+      <Short/>
     </section>
     </main>
   )
