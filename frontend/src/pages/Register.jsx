@@ -3,12 +3,63 @@ import { IoMdEyeOff } from 'react-icons/io'
 import { FaEye } from 'react-icons/fa'
 import Input from '../components/Input'
 import { Link } from 'react-router-dom'
+import Footer from '../components/Footer'
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
+
+const schema = yup.object({
+  email: yup.string().email('email tidak valid').required('email wajib'),
+  password: yup.string().min(6, 'min 6 karakter').required('password wajib'),
+  confirmPassword: yup
+    .string()
+    .oneOf([yup.ref('password')], 'password tidak sama')
+    .required('confirm password wajib'),
+})
 
 function Register() {
   const [showPassword, setShowPassword] = React.useState(false)
   const [showPassword2, setShowPassword2] = React.useState(false)
 
+ const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  })
+
+  const onSubmit = async (data) => {
+    try {
+      const res = await fetch('http://localhost:8888/api/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: data.email,
+          password: data.password,
+        }),
+      })
+
+      const result = await res.json()
+
+      if (!res.ok) {
+        alert(result.message)
+        return
+      }
+
+      alert('register berhasil')
+      console.log(result)
+    } catch (err) {
+      console.log(err)
+      alert('error nih')
+    }
+  }
+
   return (
+    <main>
+
     <section className='flex flex-col justify-center items-center gap-2'>
       
       <div>
@@ -20,7 +71,7 @@ function Register() {
       <div className='bg-white rounded-2xl shadow-sm p-8 w-full max-w-md'>
 
       
-      <form
+      <form onSubmit={handleSubmit(onSubmit)}
             className='flex flex-col gap-6'
           >
             <div>
@@ -29,7 +80,11 @@ function Register() {
                 htmlFor='email'
                 id='email'
                 placeholder='name@company.com'
+                {...register('email')}
               />
+              <p className='text-red-500 text-xs'>
+                {errors.email?.message}
+              </p>
             </div>
 
             <div>
@@ -40,6 +95,7 @@ function Register() {
                 type={showPassword ? 'text' : 'password'}
                 placeholder='••••••••'
                 className='outline-none w-full text-xs text-[#4F5665]'
+                {...register('password')}
               />
               <button
                 type="button"
@@ -50,9 +106,11 @@ function Register() {
               </button>
             </div>
             <p className='text-xs'>MINIMUM 6 CHARACTERS</p>
+
+            <p className='text-red-500 text-xs'>
+                {errors.password?.message}
+              </p>
           </div>
-
-
 
           <div>
             
@@ -62,6 +120,7 @@ function Register() {
                 type={showPassword2 ? 'text' : 'password'}
                 placeholder='••••••••'
                 className='outline-none w-full text-xs text-[#4F5665]'
+                 {...register('confirmPassword')}
               />
               <button
                 type="button"
@@ -71,6 +130,9 @@ function Register() {
                 {showPassword2 ? <IoMdEyeOff /> : <FaEye />}
               </button>
             </div>
+            <p className='text-red-500 text-xs'>
+                {errors.confirmPassword?.message}
+              </p>
           </div>
 
             <button 
@@ -103,6 +165,10 @@ function Register() {
 
 
       </section>
+
+        <Footer/>
+    </main>
+
   )
 }
 
