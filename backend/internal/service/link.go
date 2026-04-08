@@ -56,3 +56,11 @@ func (s *LinkService) Create(input models.LinkInput) (map[string]any, error) {
 func (s *LinkService) GetAll(userId int) ([]models.Link, error) {
 	return s.repo.GetByUser(userId)
 }
+
+func (s *LinkService) Delete(id int, userId int) error {
+	return s.repo.Delete(id, userId)
+}
+
+func (s *LinkService) FindBySlug(slug string) (*models.Link, error) {
+	return s.repo.FindBySlug(slug)
+}
