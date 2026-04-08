@@ -47,7 +47,7 @@ func (r *LinkRepository) Create(input models.LinkInput) error {
 }
 
 func (r *LinkRepository) GetByUser(userId int) ([]models.Link, error) {
-	query := `SELECT id, user_id, original_url, slug, created_at FROM links WHERE user_id=$1 AND deleted_at IS NULL ORDER BY id DESC`
+	query := `SELECT id, user_id, original_url, slug, created_at, deleted_at FROM links WHERE user_id=$1 AND deleted_at IS NULL ORDER BY id DESC`
 
 	rows, err := r.DB.Query(context.Background(), query, userId)
 	if err != nil {

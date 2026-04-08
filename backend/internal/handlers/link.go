@@ -3,6 +3,7 @@ package handlers
 import (
 	"backend/internal/models"
 	"backend/internal/service"
+	"errors"
 	"net/http"
 	"strconv"
 
@@ -35,7 +36,15 @@ func (h *LinkHandler) Create(ctx *gin.Context) {
 
 	result, err := h.service.Create(input)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, models.Response{
+		if errors.Is(err, errors.New("slug already taken")) {
+			ctx.JSON(http.StatusConflict, models.Response{
+				Success: false,
+				Message: "slug already taken",
+			})
+			return
+		}
+
+		ctx.JSON(http.StatusInternalServerError, models.Response{
 			Success: false,
 			Message: err.Error(),
 		})

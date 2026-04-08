@@ -40,7 +40,7 @@ func (s *LinkService) Create(input models.LinkInput) (map[string]any, error) {
 		var pgErr *pgconn.PgError
 
 		if errors.As(err, &pgErr) && pgErr.Code == "23505" {
-			return nil, errors.New("slug sudah dipakai")
+			return nil, errors.New("slug already taken")
 		}
 		return nil, errors.New("gagal membuat link")
 	}
@@ -48,7 +48,7 @@ func (s *LinkService) Create(input models.LinkInput) (map[string]any, error) {
 	return map[string]any{
 		"original_url": input.OriginalURL,
 		"slug":         slug,
-		"short_url":    fmt.Sprintf("http://localhost:3000/%s", slug),
+		"short_url":    fmt.Sprintf("http://localhost:8888/%s", slug),
 	}, nil
 
 }

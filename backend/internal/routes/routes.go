@@ -19,7 +19,7 @@ func SetupRoutes(r *gin.Engine, authHander *handlers.AuthHandler, userHandler *h
 	// user
 	userGroup := r.Group("/users")
 	userGroup.Use(lib.AuthMiddleware())
-	userGroup.GET("/", userHandler.GetAll)
+	userGroup.GET("", userHandler.GetAll)
 
 	//link
 	linkGroup := r.Group("/api")
