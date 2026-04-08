@@ -68,3 +68,18 @@ func (h *LinkHandler) Delete(ctx *gin.Context) {
 		Message: "deleted",
 	})
 }
+
+func (h *LinkHandler) Redirect(ctx *gin.Context) {
+	slug := ctx.Param("slug")
+
+	link, err := h.service.FindBySlug(slug)
+	if err != nil {
+		ctx.JSON(http.StatusNotFound, models.Response{
+			Success: false,
+			Message: "link tidak ditemukan",
+		})
+		return
+	}
+
+	ctx.Redirect(http.StatusMovedPermanently, link.OriginalURL)
+}
