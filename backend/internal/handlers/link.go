@@ -4,6 +4,7 @@ import (
 	"backend/internal/models"
 	"backend/internal/service"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -44,5 +45,26 @@ func (h *LinkHandler) Create(ctx *gin.Context) {
 		Success: true,
 		Message: "link berhasil di buat",
 		Result:  result,
+	})
+}
+
+func (h *LinkHandler) Delete(ctx *gin.Context) {
+
+	idParam := ctx.Param("id")
+	id, _ := strconv.Atoi(idParam)
+
+	userId := 1
+
+	if err := h.service.Delete(id, userId); err != nil {
+		ctx.JSON(http.StatusBadRequest, models.Response{
+			Success: false,
+			Message: err.Error(),
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, models.Response{
+		Success: true,
+		Message: "deleted",
 	})
 }
