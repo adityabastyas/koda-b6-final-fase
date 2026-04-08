@@ -44,6 +44,58 @@ function Home() {
     </section>
 
 
+    <section className="bg-gray-50 py-20 px-6">
+      <div className="max-w-6xl mx-auto">
+        
+        <div className="mb-12">
+          <p className="text-blue-600 font-bold tracking-widest text-xs uppercase mb-2">
+            Architectural Features
+          </p>
+          <h2 className="text-3xl font-extrabold text-gray-900">
+            Built for Enterprise Precision
+          </h2>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          
+          <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
+            
+              <img src="1" alt="1" />
+              
+            <h3 className="text-xl font-bold text-gray-900 mb-3">Easy Create</h3>
+            <p className="text-gray-500 mb-6 text-sm leading-relaxed">
+              Instantly generate high-performance short links with a single click or through our surgical API endpoints.
+            </p>
+            <div className="h-1 w-10 bg-blue-200 rounded-full"></div>
+          </div>
+
+          <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
+           
+             <img src="2" alt="2" />
+              
+            <h3 className="text-xl font-bold text-gray-900 mb-3">Custom Slugs</h3>
+            <p className="text-gray-500 mb-6 text-sm leading-relaxed">
+              Maintain brand authority with readable, custom link endings that resonate with your digital audience.
+            </p>
+            <div className="h-1 w-10 bg-indigo-200 rounded-full"></div>
+          </div>
+
+          <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
+            
+              <img src="3" alt="3" />
+              
+            <h3 className="text-xl font-bold text-gray-900 mb-3">Team Ready</h3>
+            <p className="text-gray-500 mb-6 text-sm leading-relaxed">
+              Collaborate across departments with shared workspaces, permissions, and unified analytics dashboards.
+            </p>
+            <div className="h-1 w-10 bg-orange-200 rounded-full"></div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
     </main>
 
   )
