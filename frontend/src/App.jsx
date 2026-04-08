@@ -7,10 +7,11 @@ import Dashboard from './pages/Dashboard'
 import CreateLink from './pages/CreateLink'
 import NotFound from './pages/NotFound'
 import Profile from './pages/Profile'
+import Footer from './components/Footer'
 
 function App() {
   return (
-    <div><Profile/></div>
+    <div><Footer/></div>
   )
 }
 
