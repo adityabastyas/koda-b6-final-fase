@@ -70,3 +70,22 @@ func (r *LinkRepository) Delete(id int, userId int) error {
 	_, err := r.DB.Exec(context.Background(), query, time.Now(), id, userId)
 	return err
 }
+
+func (r *LinkRepository) GetAll(userId int) ([]models.Link, error) {
+	query := `SELECT id, user_id, original_url, slug, created_at, deleted_at 
+			  FROM links 
+			  WHERE user_id = $1 AND deleted_at IS NULL`
+
+	rows, err := r.DB.Query(context.Background(), query, userId)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	links, err := pgx.CollectRows(rows, pgx.RowToStructByName[models.Link])
+	if err != nil {
+		return nil, err
+	}
+
+	return links, nil
+}
