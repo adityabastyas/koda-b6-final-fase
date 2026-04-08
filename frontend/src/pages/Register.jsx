@@ -2,6 +2,7 @@ import React from 'react'
 import { IoMdEyeOff } from 'react-icons/io'
 import { FaEye } from 'react-icons/fa'
 import Input from '../components/Input'
+import { Link } from 'react-router-dom'
 
 function Register() {
   const [showPassword, setShowPassword] = React.useState(false)
@@ -94,9 +95,9 @@ function Register() {
             <div className='mt-6 text-center'>
           <p className='text-sm text-gray-600'>
            Already have an account?
-            <a href='#' className='text-blue-600 hover:underline font-medium'>
+            <Link to="/login" className='text-blue-600 hover:underline font-medium'>
               Sign up
-            </a>
+            </Link>
           </p>
         </div>
 

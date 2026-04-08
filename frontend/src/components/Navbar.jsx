@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 
 function Navbar() {
   return (
@@ -9,7 +10,7 @@ function Navbar() {
 
         <ul className="flex gap-6 text-gray-600 font-medium">
           <li className="hover:text-blue-600 border cursor-pointer">
-            Dashboard
+             <Link to="/dashboard">Dashboard</Link>
           </li>
           <li className="hover:text-blue-600 cursor-pointer">Analytics</li>
           <li className="hover:text-blue-600 cursor-pointer">Links</li>
@@ -17,12 +18,12 @@ function Navbar() {
       </div>
 
       <div className="flex items-center gap-4">
-        <button className="text-gray-700 hover:text-blue-600 font-medium">
+        <Link to="/login" className="text-gray-700 hover:text-blue-600 font-medium">
           Login
-        </button>
-        <button className="bg-blue-600 text-white px-4 py-1.5 rounded-md hover:bg-blue-700">
+        </Link>
+        <Link to="/" className="bg-blue-600 text-white px-4 py-1.5 rounded-md hover:bg-blue-700">
           Logout
-        </button>
+        </Link>
       </div>
     </nav>
   );
