@@ -52,3 +52,7 @@ func (s *LinkService) Create(input models.LinkInput) (map[string]any, error) {
 	}, nil
 
 }
+
+func (s *LinkService) GetAll(userId int) ([]models.Link, error) {
+	return s.repo.GetByUser(userId)
+}
