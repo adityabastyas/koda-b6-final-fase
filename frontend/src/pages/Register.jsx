@@ -7,6 +7,8 @@ import Footer from '../components/Footer'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
+import StatusModal from '../components/StatusModal'
+import { useNavigate } from 'react-router-dom';
 
 const schema = yup.object({
   email: yup.string().email('email tidak valid').required('email wajib'),
@@ -20,6 +22,11 @@ const schema = yup.object({
 function Register() {
   const [showPassword, setShowPassword] = React.useState(false)
   const [showPassword2, setShowPassword2] = React.useState(false)
+
+  const [showModal, setShowModal] = React.useState(false);
+  const [modalConfig, setModalConfig] = React.useState({ type: 'success', title: '', message: '' })
+  
+  const navigate = useNavigate()
 
  const {
     register,
@@ -45,15 +52,37 @@ function Register() {
       const result = await res.json()
 
       if (!res.ok) {
-        alert(result.message)
+        setModalConfig({
+          type: 'error',
+          title: 'Register Failed',
+          message: result.message || 'Something went wrong'
+        })
+        setShowModal(true)
         return
       }
 
-      alert('register berhasil')
+      setModalConfig({
+        type: 'success',
+        title: 'Registration Success',
+        message: 'Your account has been created. Redirecting to login page...'
+      })
+      setShowModal(true)
+
+
+    setTimeout(() => {
+      setShowModal(false); 
+      navigate('/login');   
+    }, 3000);
       console.log(result)
     } catch (err) {
-      console.log(err)
-      alert('error nih')
+      console.error("Registrasi Error:", err);
+      setModalConfig({
+        type: 'error',
+        title: 'System Error',
+        message: 'Could not connect to server.'
+      })
+      setShowModal(true)
+      
     }
   }
 
@@ -165,6 +194,14 @@ function Register() {
 
 
       </section>
+
+      <StatusModal 
+        isOpen={showModal} 
+        onClose={() => setShowModal(false)}
+        type={modalConfig.type}
+        title={modalConfig.title}
+        message={modalConfig.message}
+      />
 
         <Footer/>
     </main>
