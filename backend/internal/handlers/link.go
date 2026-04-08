@@ -30,7 +30,8 @@ func (h *LinkHandler) Create(ctx *gin.Context) {
 		return
 	}
 
-	input.UserId = 1
+	userId := ctx.GetInt("user_id")
+	input.UserId = userId
 
 	result, err := h.service.Create(input)
 	if err != nil {
@@ -51,9 +52,16 @@ func (h *LinkHandler) Create(ctx *gin.Context) {
 func (h *LinkHandler) Delete(ctx *gin.Context) {
 
 	idParam := ctx.Param("id")
-	id, _ := strconv.Atoi(idParam)
+	id, err := strconv.Atoi(idParam)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, models.Response{
+			Success: false,
+			Message: "id tidak valid",
+		})
+		return
+	}
 
-	userId := 1
+	userId := ctx.GetInt("user_id")
 
 	if err := h.service.Delete(id, userId); err != nil {
 		ctx.JSON(http.StatusBadRequest, models.Response{
@@ -82,4 +90,24 @@ func (h *LinkHandler) Redirect(ctx *gin.Context) {
 	}
 
 	ctx.Redirect(http.StatusMovedPermanently, link.OriginalURL)
+}
+
+func (h *LinkHandler) GetAll(ctx *gin.Context) {
+
+	userId := ctx.GetInt("user_id")
+
+	links, err := h.service.GetAll(userId)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, models.Response{
+			Success: false,
+			Message: err.Error(),
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, models.Response{
+		Success: true,
+		Message: "success",
+		Result:  links,
+	})
 }

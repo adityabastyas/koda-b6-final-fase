@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func SetupRoutes(r *gin.Engine, authHander *handlers.AuthHandler, userHandler *handlers.UserHandler) {
+func SetupRoutes(r *gin.Engine, authHander *handlers.AuthHandler, userHandler *handlers.UserHandler, linkHandler *handlers.LinkHandler) {
 
 	r.Use(lib.CorsMiddleware())
 
@@ -18,7 +18,16 @@ func SetupRoutes(r *gin.Engine, authHander *handlers.AuthHandler, userHandler *h
 
 	// user
 	userGroup := r.Group("/users")
-	userGroup.Use(lib.CorsMiddleware())
-	userGroup.GET("", userHandler.GetAll)
+	userGroup.Use(lib.AuthMiddleware())
+	userGroup.GET("/", userHandler.GetAll)
+
+	//link
+	linkGroup := r.Group("/api")
+	linkGroup.Use(lib.AuthMiddleware())
+	linkGroup.POST("/links", linkHandler.Create)
+	linkGroup.GET("/links", linkHandler.GetAll)
+	linkGroup.DELETE("/links/:id", linkHandler.Delete)
+
+	r.GET("/:slug", linkHandler.Redirect)
 
 }
