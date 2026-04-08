@@ -3,12 +3,15 @@ import { IoMdEyeOff } from 'react-icons/io'
 import { FaEye } from 'react-icons/fa'
 import Input from '../components/Input'
 import { Link } from 'react-router-dom'
+import Footer from '../components/Footer'
 
 function Register() {
   const [showPassword, setShowPassword] = React.useState(false)
   const [showPassword2, setShowPassword2] = React.useState(false)
 
   return (
+    <main>
+
     <section className='flex flex-col justify-center items-center gap-2'>
       
       <div>
@@ -103,6 +106,10 @@ function Register() {
 
 
       </section>
+
+        <Footer/>
+    </main>
+
   )
 }
 
