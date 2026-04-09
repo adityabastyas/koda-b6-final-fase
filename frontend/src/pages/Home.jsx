@@ -1,6 +1,6 @@
 import React from 'react'
-import ShortenForm from '../components/ShortenForm'
 import ShortenResult from '../components/ShortenResult'
+import ShortenForm from '../components/ShortenForm'
 
 function Home() {
   return (

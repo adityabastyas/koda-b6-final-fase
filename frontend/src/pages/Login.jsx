@@ -8,6 +8,8 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import StatusModal from '../components/StatusModal'
+import {loginSuccess}  from "../redux/slices/auth.slice";
+import { useDispatch } from "react-redux";
 
 const schema = yup.object({
   email: yup.string().email('email tidak valid').required('email harus diisi'),
@@ -15,6 +17,7 @@ const schema = yup.object({
 })
 
 function Login() {
+  const dispatch = useDispatch();
   const [showPassword, setShowPassword] = React.useState(false)
 
   const [showModal, setShowModal] = React.useState(false)
@@ -59,7 +62,12 @@ function Login() {
         return
       }
 
-      localStorage.setItem('token', result.token)
+      dispatch(
+       loginSuccess({
+       user: result.result.user, 
+      token: result.result.token, 
+     })
+)
 
       setModalConfig({
         type: 'success',
