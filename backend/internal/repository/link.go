@@ -93,8 +93,15 @@ func (r *LinkRepository) Delete(id int, userId int) error {
 
 	if r.rdb != nil {
 		cacheKey := fmt.Sprintf("links:user:%d", userId)
-		r.rdb.Del(context.Background(), cacheKey)
+		err := r.rdb.Del(context.Background(), cacheKey).Err()
+		if err != nil {
+			fmt.Println("REDIS DELETE ERROR:", err)
+		} else {
+			fmt.Println("[CACHE DELETED]")
+		}
 	}
+
+	return nil
 }
 
 func (r *LinkRepository) GetAll(userId int) ([]models.Link, error) {
