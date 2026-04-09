@@ -23,7 +23,7 @@ Content-Type: application/json
 POST /api/links HTTP/1.1
 Host: localhost:8888
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhpQG1haWwuY29tIiwiZXhwIjoxNzc1NjQyNjI3LCJ1c2VyX2lkIjozfQ.Ny8JtRjIABX9uWQTd-HUNBBHsGjlB0OpwYRJ84DNUGA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhpQG1haWwuY29tIiwiZXhwIjoxNzc1NzEyMDY0LCJ1c2VyX2lkIjozfQ.GRq0fGbqHs9QVLZ0LV8_jF1Gyh5tWId1EVyKSjL1Jrg
 
 {
   "original_url": "https://github.com/matthewhartstonge/argon2"
