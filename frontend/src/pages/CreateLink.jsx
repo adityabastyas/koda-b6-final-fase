@@ -1,6 +1,53 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
+
 
 function CreateLink() {
+  const [url, setUrl] = React.useState("")
+  const [slug, setSlug] = React.useState("")
+  const [loading, setLoading] = React.useState(false)
+
+  const token = useSelector((state) => state.auth.token)
+
+  const handleCreate = async () => {
+  if (!url) return alert("URL wajib diisi")
+
+  try {
+    setLoading(true)
+    
+    const body = {
+      original_url: url,
+      ...(slug && { slug }),
+    }
+
+    const res = await fetch("http://localhost:8888/api/links", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(body),
+    })
+
+    const result = await res.json()
+
+    if (!res.ok) {
+      alert(result.message)
+      return
+    }
+
+    alert("Link berhasil dibuat")
+
+    setUrl("")
+    setSlug("")
+
+  } catch (err) {
+    console.log(err)
+    alert("error create link")
+  } finally {
+    setLoading(false)
+  }
+}
   return (
     <main>
       <section className="bg-gray-50 min-h-screen py-12 px-6 font-sans">
@@ -29,6 +76,7 @@ function CreateLink() {
               <input 
                 type="text" 
                 placeholder="https://example.com/your-long-url-here" 
+                onChange={(e) => setUrl(e.target.value)}
                 className="w-full bg-slate-50 border border-slate-200 rounded-2xl py-5 pl-14 pr-6 focus:outline-none focus:ring-4 focus:ring-blue-50 focus:border-blue-400 transition-all placeholder:text-slate-300"
               />
             </div>
@@ -46,6 +94,8 @@ function CreateLink() {
               <input 
                 type="text" 
                 placeholder="my-custom-slug" 
+                value={slug}
+                onChange={(e) => setSlug(e.target.value)}
                 className="w-full border border-slate-200 rounded-r-2xl py-5 px-5 focus:outline-none focus:ring-4 focus:ring-blue-50 focus:border-blue-400 transition-all placeholder:text-slate-200"
               />
             </div>
@@ -59,14 +109,15 @@ function CreateLink() {
             <div>
               <p className="text-[10px] font-black text-blue-600 uppercase  mb-1">Live Preview</p>
               <p className="text-slate-700 font-semibold">
-                Your short link will be: <span className="text-blue-600 underline">https://short.link/my-custom-slug</span>
+                Your short link will be: <span className="text-blue-600 underline">http://localhost:8888/{slug || "random-slug"}</span>
               </p>
             </div>
           </div>
 
           <div className="flex items-center gap-8">
-            <button className="bg-blue-600 hover:bg-blue-700 text-white font-black py-5 px-10 rounded-2xl shadow-xl shadow-blue-100 flex items-center gap-3 transition-all active:scale-95">
-              Create Link <img src="j" alt="j" />
+            <button onClick={handleCreate}
+              disabled={loading}  className="bg-blue-600 hover:bg-blue-700 text-white font-black py-5 px-10 rounded-2xl shadow-xl shadow-blue-100 flex items-center gap-3 transition-all active:scale-95">
+              {loading ? "Loading..." : "Create Link"} <img src="j" alt="j" />
             </button>
             <button className="text-slate-400 font-bold hover:text-slate-600 transition-colors">
               Cancel
