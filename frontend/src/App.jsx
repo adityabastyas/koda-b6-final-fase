@@ -8,6 +8,9 @@ import NotFound from './pages/NotFound'
 import Profile from './pages/Profile'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AppLayout from './components/AppLayout'
+import store, { persistor } from './redux/store'
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
 
 const router = createBrowserRouter([
   {
@@ -50,9 +53,12 @@ const router = createBrowserRouter([
 ])
 function App() {
   return (
-    <div>
-      <RouterProvider router={router}/>
-    </div>
+      <Provider store={store}>
+       <PersistGate loading={<div>Loading...</div>} persistor={persistor}>
+        <RouterProvider router={router} />
+      </PersistGate>
+    </Provider>
+    
   )
 }
 

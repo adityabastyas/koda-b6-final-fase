@@ -16,6 +16,7 @@ const res = await fetch('http://localhost:8888/api/links', {
 method: 'POST',
 headers: {
 'Content-Type': 'application/json',
+'Authorization': `Bearer ${token}`, 
 },
 body: JSON.stringify({
 original_url: url,
