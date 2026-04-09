@@ -1,4 +1,6 @@
 import React from 'react'
+import ShortenForm from '../components/ShortenForm'
+import ShortenResult from '../components/ShortenResult'
 
 function Home() {
   return (
@@ -25,23 +27,22 @@ function Home() {
         </button>
       </div>
 
-      <div className="w-full max-w-3xl">
-        <div className="bg-white p-4 rounded-xl shadow-xl flex items-center border border-gray-100">
-          <div className="pl-3 text-gray-400">
-          </div>
+           
           
-          <input 
-            type="text" 
-            placeholder="https://very-long-architectural-url.com/asset-id-99238-x1" 
-            className="flex-grow px-4 py-2 text-gray-400 focus:outline-none bg-transparent"
-          />
-          <button className="bg-blue-700 hover:bg-blue-800 text-white font-bold py-3 px-10 rounded-lg transition duration-200">
-            Shorten
-          </button>
-        </div>
-      </div>
+    </section>
+
+    <section className=''>
+
+      <ShortenForm/>
+
+      <ShortenResult/>
+
 
     </section>
+
+           
+
+   
 
 
     <section className="bg-gray-50 py-20 px-6">
