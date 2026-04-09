@@ -6,14 +6,14 @@ function Navbar() {
     <nav className="w-full bg-gray-100 px-6 py-3 flex items-center justify-between shadow-sm">
       
       <div className="flex items-center gap-8">
-        <h1 className="text-xl font-bold text-gray-900">ShortLink</h1>
+        <h1 className="text-xl font-bold text-gray-900"><Link to="/">ShortLink</Link> </h1>
 
         <ul className="flex gap-6 text-gray-600 font-medium">
           <li className="hover:text-blue-600 border cursor-pointer">
-             <Link to="/dashboard">Dashboard</Link>
+             <Link to="/">Dashboard</Link>
           </li>
-          <li className="hover:text-blue-600 cursor-pointer">Analytics</li>
-          <li className="hover:text-blue-600 cursor-pointer">Links</li>
+          <li className="hover:text-blue-600 cursor-pointer"><Link to="analytics">Analytics</Link> </li>
+          <li className="hover:text-blue-600 cursor-pointer"><Link to="create-link">Links</Link> </li>
         </ul>
       </div>
 

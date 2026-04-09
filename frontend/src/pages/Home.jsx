@@ -1,5 +1,4 @@
 import React from 'react'
-import ShortenResult from '../components/ShortenResult'
 import ShortenForm from '../components/ShortenForm'
 
 function Home() {
@@ -31,19 +30,8 @@ function Home() {
           
     </section>
 
-    <section className=''>
 
       <ShortenForm/>
-
-      <ShortenResult/>
-
-
-    </section>
-
-           
-
-   
-
 
     <section className="bg-gray-50 py-20 px-6">
       <div className="max-w-6xl mx-auto">
