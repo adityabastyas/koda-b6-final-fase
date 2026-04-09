@@ -2,11 +2,87 @@ import React from 'react'
 import Input from '../components/Input'
 import { IoMdEyeOff } from 'react-icons/io'
 import { FaEye } from 'react-icons/fa'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Footer from '../components/Footer'
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
+import StatusModal from '../components/StatusModal'
+
+const schema = yup.object({
+  email: yup.string().email('email tidak valid').required('email harus diisi'),
+  password: yup.string().required('password harus diisi'),
+})
 
 function Login() {
   const [showPassword, setShowPassword] = React.useState(false)
+
+  const [showModal, setShowModal] = React.useState(false)
+  const [modalConfig, setModalConfig] = React.useState({
+    type: 'success',
+    title: '',
+    message: '',
+  })
+
+  const navigate = useNavigate()
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  })
+
+  const onSubmit = async (data) => {
+    try {
+      const res = await fetch('http://localhost:8888/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: data.email,
+          password: data.password,
+        }),
+      })
+
+      const result = await res.json()
+
+      if (!res.ok) {
+        setModalConfig({
+          type: 'error',
+          title: 'Login Failed',
+          message: result.message || 'Something went wrong',
+        })
+        setShowModal(true)
+        return
+      }
+
+      localStorage.setItem('token', result.token)
+
+      setModalConfig({
+        type: 'success',
+        title: 'Login Success',
+        message: 'Redirecting to dashboard...',
+      })
+      setShowModal(true)
+
+      setTimeout(() => {
+        setShowModal(false)
+        navigate('/') 
+      }, 3000)
+
+    } catch (err) {
+      console.error("Login Error:", err)
+      setModalConfig({
+        type: 'error',
+        title: 'System Error',
+        message: 'Could not connect to server.',
+      })
+      setShowModal(true)
+    }
+  }
   return (
     <main>
 
@@ -26,6 +102,7 @@ function Login() {
         </div>
       
       <form
+       onSubmit={handleSubmit(onSubmit)}
             className='flex flex-col gap-6'
           >
             <div>
@@ -34,7 +111,11 @@ function Login() {
                 htmlFor='email'
                 id='email'
                 placeholder='name@company.com'
+                 {...register('email')}
               />
+              <p className='text-red-500 text-xs'>
+                {errors.email?.message}
+              </p>
             </div>
 
             <div>
@@ -52,6 +133,7 @@ function Login() {
                 type={showPassword ? 'text' : 'password'}
                 placeholder='••••••••'
                 className='outline-none w-full text-xs text-[#4F5665]'
+                {...register('password')}
               />
               <button
                 type="button"
@@ -61,6 +143,9 @@ function Login() {
                 {showPassword ? <IoMdEyeOff /> : <FaEye />}
               </button>
             </div>
+             <p className='text-red-500 text-xs'>
+                {errors.password?.message}
+              </p>
           </div>
 
             <button 
@@ -99,6 +184,15 @@ function Login() {
 
 
       </section>
+
+
+      <StatusModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        type={modalConfig.type}
+        title={modalConfig.title}
+        message={modalConfig.message}
+      />
 
       <Footer/>
 
