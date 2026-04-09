@@ -8,9 +8,10 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v5/pgxpool"
+	"github.com/redis/go-redis/v9"
 )
 
-func Container(c *gin.Engine, db *pgxpool.Pool) {
+func Container(c *gin.Engine, db *pgxpool.Pool, rdb *redis.Client) {
 
 	//user
 	userRepo := repository.NewUserRepository(db)
@@ -21,7 +22,7 @@ func Container(c *gin.Engine, db *pgxpool.Pool) {
 	authHandler := handlers.NewAuthHandler(userService)
 
 	//link
-	linkRepo := repository.NewLinkRepository(db)
+	linkRepo := repository.NewLinkRepository(db, rdb)
 	linkService := service.NewLinkService(linkRepo)
 	linkHandler := handlers.NewLinkHandler(linkService)
 

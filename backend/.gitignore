@@ -1,5 +1,4 @@
 .env
-.air.toml
 tmp
 test.sql
 text.txt

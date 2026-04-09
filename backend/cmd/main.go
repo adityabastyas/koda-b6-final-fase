@@ -19,9 +19,10 @@ func main() {
 
 	r := gin.Default()
 
-	r.GET("swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	rdb := lib.InitRedis()
 
-	di.Container(r, lib.DB)
+	di.Container(r, lib.DB, rdb)
+	r.GET("swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	r.Run(fmt.Sprintf(":%s", os.Getenv("PORT")))
 
